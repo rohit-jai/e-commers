@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Google map</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/userheader.ejs') %>
+    <h1>My google map </h1>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            // Map options 
+            var options = {
+                zoom: 13,
+                center: { lat: 29.3857, lng: 76.9905 },
+
+
+            }
+            // new map 
+            var map = new google.maps.Map(document.getElementById('map'), options)
+
+            // listion for click on map
+
+            // google.maps.event.addListener(map, 'click',
+            // function(event)
+            // {
+            //     addMarker({coords:event.latLng})
+            // }
+            // )
+
+
+            //Add marker
+            //                 const marker = new google.maps.Marker({                   
+            //           position: {lat:29.3857,lng:76.9905},
+            //           map: map,
+            //           icon:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+            //         });
+
+            // // for creating a nameing conventaion for a marker just click over red location button you get to see the name of location  
+            //         var InfoWindow = new google.maps.InfoWindow({
+            //             content:'<h1>Panipat Haryana </h1>'
+            //         })
+            //             marker.addListener('click', function(){
+            //                 InfoWindow.open(map, marker)
+            //             })
+
+            // now we are going to add the multiple location over the google map api by java script 
+            // which is given berlow 
+            // for simplicity the code we have to do all three diffrenet property into the array
+
+            var markers = [
+                {
+                    
+                    coords: { lat: 29.3857, lng: 76.9905 },
+                    iconImage: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                    content: '<h1>Panipat Haryan </h1>'
+                },
+                {
+                    coords: { lat: 29.6857, lng: 76.9905 },
+                    iconImage: 'https://img.icons8.com/nolan/2x/marker.png',
+                    content: '<h1>karnal Haryana </h1>'
+                },
+                {
+                    coords: { lat: 28.9931, lng: 77.0151 },
+                    content: '<h1>Sonipat Haryana </h1>'
+                }
+            ]
+
+            for (var i = 0; i < markers.length; i++) {
+                addMarker(markers[i])
+            }
+
+            // addMarker({
+            //     coords:{lat:29.3857,lng:76.9905},
+            //     iconImage: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+            //     content:'<h1>Panipat Haryan </h1>'
+            // })
+            // addMarker({
+            //     coords:{lat:29.6857,lng:76.9905},
+            //     content:'<h1>karnal Haryana </h1>'
+            // })
+            // addMarker({
+            //     coords:{lat:28.9931,lng:77.0151},
+            //     content:'<h1>Sonipat Haryana </h1>'
+            // })
+
+            function addMarker(props) {
+
+                const marker = new google.maps.Marker({
+                    position: props.coords,
+                    map: map,
+                    // icon: props.iconImage
+                });
+                if (props.iconImage) {
+                    marker.setIcon(props.iconImage)
+                }
+
+                //check content 
+                if (props.content) {
+                    var InfoWindow = new google.maps.InfoWindow({
+                        content: props.content
+                    })
+                    marker.addListener('mouseover', function () {
+                        InfoWindow.open(map, marker)
+                    })
+                }
+            }
+        }
+    </script>
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxZra6obupyK9QF-y4o8H90kfwxclRL1E&libraries=places&callback=initMap"
+        async defer></script>
+
+</body>
+
+</html>
+<%- include('../partials/footer.ejs') %>

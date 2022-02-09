@@ -1,0 +1,26 @@
+<%- include('partials/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Add Category</h1>
+        <div class="card">
+            <div class="card-body">
+               <form method="POST" action="<% if(typeof data =='object'  &&  data.length > 0) { %>/admin/categories/<%=data[0]._id%><% }else {%>/admin/categories/add<% } %>" enctype="multipart/form-data" >
+                    <label  class="form-label mt-2">Category Name</label>
+                    <input class="form-control" type="text" name="name" placeholder="Enter Category Name" required value="<% if(typeof data =='object'  && data.length > 0) { %><%=data[0].name%><% } %>">
+
+                    <label  class="form-label mt-2">Image</label>
+                    <br>
+                    <% if(typeof data =='object'  && data.length > 0) { %><img src="/<%=data[0].img%>" width="100" /> <% } %>
+                    <br>
+                    <input class="form-control " type="file" name="img" >
+                    
+                    <button class="btn btn-primary mt-2" ><% if(typeof data =='object'  &&  data.length > 0) { %> Update<% }else {%>Save<% } %></button>
+               </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+<%- include('partials/footer.ejs') %>

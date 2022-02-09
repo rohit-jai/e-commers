@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page </title>
+    <link rel="stylesheet" href="css/style1.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <h3 class="text-center mt-5">User Login</h3>
+        <div class="row mt-2">
+            <div class="col-md-4 offset-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="/login-check">
+                            <div class="email-login"> 
+                                <label  class="form-label mt-2">Email address</label>
+                                <input class="form-control" type="text" name="email" id="email" placeholder="Enter Email" required>
+            
+                                <label  class="form-label mt-2">Password</label>
+                                <input class="form-control " type="password" name="password" id="password" placeholder="Enter Password" required>
+                                <input type="button"  class="btn btn-primary mt-2" id="email-login" value="Login">
+                            </div>
+                            <div class="otp-login" style="display: none;">
+                                <div class="mobile-box">
+                                    <label class="form-label mt-2">Mobile</label>
+                                    <input class="form-control" type="number" name="mobile" id="mobile"
+                                        placeholder="Enter Mobile" required>
+                                        <label id="suggest"></label>
+                                       
+                                </div>
+                                <div class="otp-box" style="display: none;">
+                                    <label class="form-label mt-2">Enter OTP</label>
+                                    <input class="form-control " type="number" name="otp" id="otp" placeholder="Enter Otp">
+                                    <input type="button" class="btn btn-primary mt-2" id="login" value="Login">
+                                </div>
+                                <input type="button" class="btn btn-primary mt-2" id="otp_btn" value="Send OTP">
+                            </div>
+                        </form>
+                        <!-- <form method="POST" action="/login-check">
+                            <label  class="form-label mt-2">Email address</label>
+                            <input class="form-control" type="text" name="email" placeholder="Enter Email" required>
+        
+                            <label  class="form-label mt-2">Password</label>
+                            <input class="form-control " type="password" name="password" placeholder="Enter Password" required>
+                            <input type="submit"  class="btn btn-primary mt-2" value="Login">
+                       </form> -->
+                       <a  class="float-end" id="change-password" href="/user/forgotpassword"> forget Password </a>
+                       <br>
+                        <a class=" btn btn-primary mt-2" id="google-login" href="/google"> Login With Google</a>
+                        
+                     
+                      
+                        <p class="mt-3" id="sign">If You Are New User Please <a href="/signup">Signup Here</a>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#otp_btn").click(function () {
+                var mobile = $("#mobile").val();
+                               
+                if (mobile == "") {
+                    alert("Please Enter Mobile Number");
+                    return false;
+                }
+                else if(mobile.length != 10){
+                    alert("Please Enter 10 Digit Mobile Number");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/send-otp",
+                    data: { "mobile": mobile },
+                    success: (data) => {
+                        if (data.status == "sucess") {
+                            alert("otp sent");
+                            $(".otp-box").show();
+                            $("#otp_btn").hide();
+                            $(".mobile-box").hide();
+                            $("#change-password").hide();
+                            $("#sign").hide();
+                            
+                        }else
+                        {
+                            alert(data.message);
+                        }
+                    }
+                });
+            });
+
+            $("#login").click(function () {
+                var otp = $("#otp").val();
+                if (otp == "") {
+                    alert("Please enter otp");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/verify-otp",
+                    data: { "otp": otp },
+                    success: function(data){
+                        if (data.status == "sucess") {
+                            window.location.href = "/";
+                        }
+                        else{
+                            alert('plese enter correct otp')
+                        }
+                        
+                    }
+                });
+            });
+
+            $("#email-login").click(function () {
+                var email = $("#email").val();
+                var password = $("#password").val();
+                if (email == "" || password == "") {
+                    alert("Email or password can't be blank");
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/login-check",
+                    data: { "email":email,"password":password },
+                    success: (data) => {
+                        if (data.status == "sucess") {
+                            alert("Email Login Sucess");
+                            $('#suggest').html('last 3 digit xxxxxxx'+data.mobile.slice(7,10))
+                            $(".otp-login").show();
+                            $(".email-login").hide();
+                            $("#google-login").hide();
+                            $("#change-password").hide();
+                            $("#sign").hide();
+                        }else
+                        {
+                            alert(data.message);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

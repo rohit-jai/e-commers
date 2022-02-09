@@ -1,0 +1,73 @@
+<%- include('partials/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Orders</h1>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">All Orders</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Sr</th>
+                                <th>Product Name</th>
+                                <th>User Name</th>
+                                <th>Date</th> 
+                                <th>Address</th>
+                                <th>Status</th> 
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Sr</th>
+                                <th>Product Name</th>
+                                <th>User Name</th>
+                                <th>Date</th> 
+                                <th>Address</th> 
+                                <th>Status</th> 
+                            </tr>
+                        </tfoot>
+                        <tbody>                            
+                            <% orders.forEach((order,index)=>{%>
+                                <tr>
+                                    <td>
+                                        <%=index+1%>
+                                    </td>
+                                    <td>
+                                        <%=order.productId[0].name%>
+                                    </td>
+                                    <td>
+                                        <%=order.userId[0].firstName%>
+                                    </td>
+                                    <td>
+                                        <%=order.date.getDate()%>/<%=order.date.getMonth()%>/<%=order.date.getFullYear()%>
+                                    </td>
+                                    <td>
+                                        <% addresses.forEach((address,key)=>{%>
+                                            <% if(order.userId[0]._id.toString() == address.user_id){ %>
+                                                <%=address.address1%>,
+                                                <%=address.city%>,
+                                                <%=address.state%>
+                                            <%}%>
+                                        <%})%>
+                                    </td>
+                                    <td>
+                                        <%=order.status%>
+                                    </td>
+                                </tr>
+                                <%})%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+<%- include('partials/footer.ejs') %>

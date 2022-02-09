@@ -1,0 +1,63 @@
+<%- include('partials/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Users</h1>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">All Users</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Sr</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th> 
+                                <th>Status</th> 
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Sr</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th> 
+                                <th>Status</th> 
+                            </tr>
+                        </tfoot>
+                        <tbody>                            
+                            <% users.forEach((user,index)=>{%>
+                                <tr>
+                                    <td>
+                                        <%=index+1%>
+                                    </td>
+                                    <td>
+                                        <%=user.firstName%>
+                                        <%=user.lastName%>
+                                    </td>
+                                    <td>
+                                        <%=user.email%>
+                                    </td>
+                                    <td>
+                                        <%=user.mobile%>
+                                    </td>
+                                    <td>
+                                        <%=user.status%>
+                                    </td>
+                                </tr>
+                                <%})%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+<%- include('partials/footer.ejs') %>

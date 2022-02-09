@@ -1,0 +1,43 @@
+<%- include('partials/header.ejs') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+       
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Add Product</h1>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="<% if(typeof product != 'undefined') { %>/admin/products/edit/<%=product._id%><% }else {%>/admin/products/add<% } %>" enctype="multipart/form-data" >
+                    <label  class="form-label mt-2">Select Category </label>
+                    <select class="form-control" name="cat_id" id="category">
+                        <option value="">Select</option>
+                        <% var selected = ''; %>
+                        <% categories.forEach((category,index)=>{%>
+                            <% if(typeof product != 'undefined' && JSON.stringify(category._id) == JSON.stringify(product.cat_id[0]._id)) { %>
+                                <% var selected = "selected"; %>
+                            <% } %>
+                            <option value="<%=category._id%>" <%=selected%>><%=category.name%></option>
+                        <%})%>
+                    </select>
+                    <label  class="form-label mt-2">Product Name</label>
+                    <input class="form-control" type="text" name="name" placeholder="Enter  Product Name"  value="<% if(typeof product != 'undefined') { %><%=product.name%><% } %>">
+
+                    <label  class="form-label mt-2">Mrp</label>
+                    <input class="form-control" type="number" name="mrp" placeholder="Enter Product Mrp" value="<% if(typeof product != 'undefined') { %><%=product.mrp%><% } %>" >
+
+                    <label  class="form-label mt-2">Price</label>
+                    <input class="form-control" type="number" name="price" placeholder="Enter Price " value="<% if(typeof product != 'undefined') { %><%=product.price%><% } %>">
+
+                    <label  class="form-label mt-2">Image</label>
+                    <br>
+                     <input class="form-control " type="file" name="img" >
+                    
+                    <input type="submit"  class="btn btn-primary mt-2" value="Add Product">
+               </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- /.container-fluid -->
+<%- include('partials/footer.ejs') %>
